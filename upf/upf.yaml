@@ -29,3 +29,4 @@ upf:
 smf:
     pfcp:
       - addr: SMF_IP
+        dnn: private

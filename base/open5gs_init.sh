@@ -80,6 +80,10 @@ elif [[ "$COMPONENT_NAME" =~ ^(smf-[[:digit:]]+$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	/mnt/smf/smf_init.sh  && \
     cd install/bin && ./open5gs-smfd
+elif [[ "$COMPONENT_NAME" =~ ^(smf2-[[:digit:]]+$) ]]; then
+        echo "Deploying component: '$COMPONENT_NAME'"
+        /mnt/smf/smf2_init.sh  && \
+    cd install/bin && ./open5gs-smfd
 elif [[ "$COMPONENT_NAME" =~ ^(udm-[[:digit:]]+$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	/mnt/udm/udm_init.sh  && \
@@ -92,6 +96,11 @@ elif [[ "$COMPONENT_NAME" =~ ^(upf-[[:digit:]]+$) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	/mnt/upf/upf_init.sh  && \
     cd install/bin && ./open5gs-upfd
+elif [[ "$COMPONENT_NAME" =~ ^(upf2-[[:digit:]]+$) ]]; then
+        echo "Deploying component: '$COMPONENT_NAME'"
+        /mnt/upf/upf2_init.sh  && \
+    cd install/bin && ./open5gs-upfd
+
 elif [[ "$COMPONENT_NAME" =~ ^(webui) ]]; then
 	echo "Deploying component: '$COMPONENT_NAME'"
 	sleep 10 && /mnt/webui/webui_init.sh

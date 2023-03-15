@@ -161,6 +161,37 @@ services:
     networks:
       default:
         ipv4_address: ${SMF_IP}
+        
+  smf2:
+    image: docker_open5gs
+    depends_on:
+      - nrf
+      - scp
+    container_name: smf2
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=smf2-1
+    volumes:
+      - ./smf:/mnt/smf
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "3868/udp"
+      - "3868/tcp"
+      - "3868/sctp"
+      - "5868/udp"
+      - "5868/tcp"
+      - "5868/sctp"
+      - "8805/udp"
+      - "2123/udp"
+      - "7777/tcp"
+      - "9091/tcp"
+    networks:
+      default:
+        ipv4_address: ${SMF2_IP}
+
   upf:
     image: docker_open5gs
     depends_on:
@@ -181,17 +212,50 @@ services:
       - "2152/udp"
       - "8805/udp"
       - "9091/tcp"
-    # ports:
-    #   - "2152:2152/udp"
+    ports:
+       - "2152:2152/udp"
     cap_add:
       - NET_ADMIN
     privileged: true
     sysctls:
-      - net.ipv4.ip_forward=1
+       - net.ipv4.ip_forward=1
       #- net.ipv6.conf.all.disable_ipv6=0
     networks:
       default:
         ipv4_address: ${UPF_IP}
+
+  upf2:
+    image: docker_open5gs
+    depends_on:
+      - nrf
+      - scp
+      - smf2
+    container_name: upf2
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=upf2-1
+    volumes:
+      - ./upf:/mnt/upf
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "2153/udp"
+      - "8805/udp"
+      - "9091/tcp"
+    ports:
+       - "2153:2153/udp"
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    sysctls:
+       - net.ipv4.ip_forward=1
+      #- net.ipv6.conf.all.disable_ipv6=0
+    networks:
+      default:
+        ipv4_address: ${UPF2_IP}
+
   amf:
     image: docker_open5gs
     depends_on:
@@ -218,8 +282,8 @@ services:
       - "38412/sctp"
       - "7777/tcp"
       - "9091/tcp"
-    # ports:
-    #   - "38412:38412/sctp"
+    ports:
+      - "38412:38412/sctp"
     networks:
       default:
         ipv4_address: ${AMF_IP}
