@@ -1,0 +1,68 @@
+logger:
+    file: /open5gs/install/var/log/open5gs/smf2.log
+
+sbi:
+    server:
+      no_tls: true
+    client:
+      no_tls: true
+
+parameter:
+    no_ipv4v6_local_addr_in_packet_filter: true
+
+smf:
+    freeDiameter: /open5gs/install/etc/freeDiameter/smf2.conf
+    info:
+      - s_nssai:
+          - sst: 1
+            sd: 000002
+            dnn:
+              - private
+        tai:
+          - plmn_id:
+              mcc: MCC
+              mnc: MNC
+            tac: 1
+    sbi:
+      - addr: SMF2_IP
+        port: 7777
+    gtpc:
+      - addr: SMF2_IP
+    gtpu:
+      - addr: SMF2_IP
+    pfcp:
+      - addr: SMF2_IP
+    subnet:
+      - addr: 192.168.200.1/24
+        dnn: private
+        dev: ogstun
+      - addr: 2001:230:aafe::1/48
+        dev: ogstun
+        dnn: private
+
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    p-cscf:
+      - PCSCF_IP
+    mtu: 1400
+    metrics:
+      - addr: SMF2_IP
+        port: 9091
+
+scp:
+    sbi:
+      - addr:
+          - SCP_IP
+        port: 7777
+
+nrf:
+    sbi:
+      - addr:
+          - NRF_IP
+        port: 7777
+
+upf:
+    pfcp:
+      - addr: UPF2_IP
+        dnn: private
