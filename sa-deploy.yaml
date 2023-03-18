@@ -268,6 +268,8 @@ services:
       - udr
       - pcf
       - bsf
+      - smf2
+      - upf2
     container_name: amf
     env_file:
       - .env
