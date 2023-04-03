@@ -137,6 +137,7 @@ services:
     depends_on:
       - nrf
       - scp
+      - amf
     container_name: smf
     env_file:
       - .env
@@ -167,6 +168,7 @@ services:
     depends_on:
       - nrf
       - scp
+      - amf
     container_name: smf2
     env_file:
       - .env
@@ -241,11 +243,11 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "2153/udp"
+      - "2152/udp"
       - "8805/udp"
       - "9091/tcp"
     ports:
-       - "2153:2153/udp"
+       - "2153:2152/udp"
     cap_add:
       - NET_ADMIN
     privileged: true
@@ -259,8 +261,6 @@ services:
   amf:
     image: docker_open5gs
     depends_on:
-      - smf
-      - upf
       - nrf
       - scp
       - ausf
@@ -268,8 +268,6 @@ services:
       - udr
       - pcf
       - bsf
-      - smf2
-      - upf2
     container_name: amf
     env_file:
       - .env
